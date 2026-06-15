@@ -120,7 +120,7 @@ POST /api/generate-report
 {
   "topic": "Digital Banking Transformation in India",
   "sections": ["Executive Summary", "Industry Overview", "References"],
-  "geminiKey": "AIza..."
+  "groqKey": "AIza..."
 }
 ```
 
@@ -177,7 +177,7 @@ CMD ["node", "server.js"]
 - API keys are **never stored** on the server — passed per-request only
 - Keys transmitted only over HTTPS in production
 - Consider adding rate limiting (e.g. `express-rate-limit`) for production use
-- Gemini API calls are made server-side (key not exposed in browser network tab)
+- Groq calls are made server-side (key not exposed in browser network tab)
 
 ---
 
