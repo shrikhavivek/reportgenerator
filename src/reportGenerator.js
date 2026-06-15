@@ -88,7 +88,7 @@ Return ONLY the JSON object. No markdown, no code fences, no preamble.`;
       'Authorization': `Bearer ${groqKey}`
     },
     body: JSON.stringify({
-      model: 'llama3-70b-8192',
+      model: 'llama-3.3-70b-versatile',
       messages: [
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt }
@@ -132,7 +132,7 @@ Return ONLY the JSON object. No markdown, no code fences, no preamble.`;
         'Authorization': `Bearer ${groqKey}`
       },
       body: JSON.stringify({
-        model: 'llama3-70b-8192',
+        model: 'llama-3.3-70b-versatile',
         messages: [
           { role: 'user', content: `Fix this JSON and return ONLY valid JSON, nothing else, no markdown:\n${rawText}` }
         ],
