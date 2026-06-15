@@ -10,22 +10,20 @@ app.use(cors());
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Generate report content via web search + Gemini
+// Generate report content via Groq
 app.post('/api/generate-report', async (req, res) => {
   try {
-    const { topic, sections, geminiKey } = req.body;
+    const { topic, sections, groqKey } = req.body;
     if (!topic) return res.status(400).json({ error: 'Topic is required' });
-    if (!geminiKey) return res.status(400).json({ error: 'Gemini API key is required' });
+    if (!groqKey) return res.status(400).json({ error: 'Groq API key is required' });
 
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
 
-    const sendUpdate = (data) => {
-      res.write(`data: ${JSON.stringify(data)}\n\n`);
-    };
+    const sendUpdate = (data) => res.write(`data: ${JSON.stringify(data)}\n\n`);
 
-    await generateReport({ topic, sections, geminiKey, sendUpdate });
+    await generateReport({ topic, sections, groqKey, sendUpdate });
     res.write('data: [DONE]\n\n');
     res.end();
   } catch (err) {
@@ -42,7 +40,7 @@ app.post('/api/download-docx', async (req, res) => {
     if (!reportData) return res.status(400).json({ error: 'Report data is required' });
 
     const buffer = await generateDocx(reportData);
-    const filename = `KPMG_Report_${reportData.topic.replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().getFullYear()}.docx`;
+    const filename = `KPMG_Report_${(reportData.topic || 'Report').replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().getFullYear()}.docx`;
 
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
     res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
@@ -53,13 +51,13 @@ app.post('/api/download-docx', async (req, res) => {
   }
 });
 
-// Chatbot endpoint for report editing
+// Chatbot endpoint
 app.post('/api/chat', async (req, res) => {
   try {
-    const { message, reportData, history, geminiKey } = req.body;
-    if (!geminiKey) return res.status(400).json({ error: 'Gemini API key is required' });
+    const { message, reportData, history, groqKey } = req.body;
+    if (!groqKey) return res.status(400).json({ error: 'Groq API key is required' });
 
-    const result = await chatWithBot({ message, reportData, history, geminiKey });
+    const result = await chatWithBot({ message, reportData, history, groqKey });
     res.json(result);
   } catch (err) {
     console.error(err);
