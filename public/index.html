@@ -531,7 +531,7 @@ function renderReport(data) {
     '<div class="rp-cover-meta"><span class="rp-meta-item"><strong>' + esc(data.date || '') + '</strong></span><div class="rp-meta-dot"></div><span class="rp-meta-item">kpmg.com/in</span></div>'
   ));
   if (data.executiveSummary) {
-    var sents = data.executiveSummary.split('. ');
+    var execText = Array.isArray(data.executiveSummary) ? data.executiveSummary.join(' ') : String(data.executiveSummary || ''); var sents = execText.split('. ');
     rp.appendChild(mk('div', 'rp-exec',
       '<div class="rp-exec-eyebrow">Executive Summary</div>' +
       '<div class="rp-exec-text"><span class="rp-exec-lead">' + esc(sents[0] + '.') + '</span>' + (sents.length > 1 ? ' ' + esc(sents.slice(1).join('. ')) : '') + '</div>'

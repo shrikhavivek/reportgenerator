@@ -147,6 +147,8 @@ Return ONLY the JSON object. No markdown, no code fences, no preamble.`;
   }
 
   reportData.generatedAt = new Date().toISOString();
+  if (typeof reportData.executiveSummary !== 'string') reportData.executiveSummary = Array.isArray(reportData.executiveSummary) ? reportData.executiveSummary.join(' ') : String(reportData.executiveSummary || '');
+  if (typeof reportData.conclusion !== 'string') reportData.conclusion = Array.isArray(reportData.conclusion) ? reportData.conclusion.join(' ') : String(reportData.conclusion || '');
   if (!reportData.date) reportData.date = currentDate;
   if (!reportData.topic) reportData.topic = topic;
 
