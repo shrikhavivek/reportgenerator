@@ -4,1008 +4,667 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>KPMG India | Report Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --kpmg-blue: #00338D;
-    --kpmg-light-blue: #005EB8;
-    --kpmg-cobalt: #0091DA;
-    --kpmg-teal: #00B2A9;
-    --kpmg-grey: #63666A;
-    --kpmg-light-grey: #F2F2F2;
-    --kpmg-mid-grey: #D6D6D6;
-    --kpmg-dark: #1A1A2E;
-    --white: #FFFFFF;
-    --text-dark: #1C1C1C;
-    --font: 'Arial', sans-serif;
-    --sidebar-w: 380px;
-    --transition: 0.25s ease;
-  }
+:root {
+  --blue:       #00338D;
+  --blue-hover: #002d7a;
+  --blue-mid:   #005EB8;
+  --cobalt:     #0091DA;
+  --cobalt-10:  rgba(0,145,218,0.10);
+  --teal:       #00B2A9;
+  --teal-10:    rgba(0,178,169,0.10);
+  --red:        #C8102E;
+  --g90:        #111318;
+  --g70:        #3D4047;
+  --g50:        #6B6F78;
+  --g30:        #9EA3AE;
+  --g15:        #D4D7DE;
+  --g08:        #ECEEF2;
+  --g04:        #F5F6F8;
+  --white:      #FFFFFF;
+  --panel-w:    310px;
+  --nav-h:      60px;
+  --chat-w:     380px;
+  --r-sm:       4px;
+  --r:          8px;
+  --r-lg:       12px;
+  --r-xl:       16px;
+  --shadow-sm:  0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.04);
+  --shadow:     0 4px 12px rgba(0,0,0,0.08),0 1px 4px rgba(0,0,0,0.04);
+  --shadow-lg:  0 12px 32px rgba(0,0,0,0.10),0 2px 8px rgba(0,0,0,0.06);
+  --ease:       cubic-bezier(0.4,0,0.2,1);
+  --font:       'Inter', system-ui, sans-serif;
+  --serif:      'Playfair Display', Georgia, serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;font-family:var(--font);background:var(--g04);color:var(--g90);-webkit-font-smoothing:antialiased;}
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--g15);border-radius:4px;}
+::-webkit-scrollbar-thumb:hover{background:var(--g30);}
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html, body { height: 100%; font-family: var(--font); background: #F7F8FA; color: var(--text-dark); }
+.nav{position:fixed;top:0;left:0;right:0;z-index:300;height:var(--nav-h);background:var(--blue);display:flex;align-items:center;justify-content:space-between;padding:0 28px;}
+.nav::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cobalt),var(--teal));}
+.nav-left{display:flex;align-items:center;gap:18px;}
+.nav-logo-wrap{background:var(--white);border-radius:3px;padding:4px 10px;display:flex;align-items:center;height:34px;}
+.nav-logo-text{font-size:18px;font-weight:900;color:var(--blue);letter-spacing:2px;}
+.nav-sep{width:1px;height:22px;background:rgba(255,255,255,0.15);}
+.nav-title{color:rgba(255,255,255,0.65);font-size:12.5px;font-weight:400;letter-spacing:0.2px;}
+.nav-right{display:flex;gap:8px;align-items:center;}
 
-  /* ── TOP NAV ─────────────────────────────────────────────────────────────── */
-  .nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-    background: var(--kpmg-blue);
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0 28px; height: 56px;
-    box-shadow: 0 2px 12px rgba(0,51,141,0.25);
-  }
-  .nav-brand { display: flex; align-items: center; gap: 14px; }
-  .nav-logo {
-    background: var(--white); color: var(--kpmg-blue);
-    font-size: 15px; font-weight: 900; padding: 4px 10px;
-    letter-spacing: 1px; border-radius: 2px;
-  }
-  .nav-title { color: var(--white); font-size: 14px; font-weight: 400; opacity: 0.85; letter-spacing: 0.3px; }
-  .nav-actions { display: flex; gap: 10px; align-items: center; }
-  .nav-pill {
-    background: rgba(255,255,255,0.12); color: var(--white);
-    border: 1px solid rgba(255,255,255,0.2); border-radius: 20px;
-    padding: 5px 14px; font-size: 12px; cursor: pointer; transition: var(--transition);
-    display: flex; align-items: center; gap: 6px;
-  }
-  .nav-pill:hover { background: rgba(255,255,255,0.22); }
-  .nav-pill.active { background: var(--kpmg-cobalt); border-color: var(--kpmg-cobalt); }
-  .badge {
-    background: var(--kpmg-teal); color: white; border-radius: 10px;
-    padding: 1px 6px; font-size: 10px; font-weight: 700;
-  }
+.nbtn{display:inline-flex;align-items:center;gap:7px;padding:7px 16px;border-radius:100px;font-family:var(--font);font-size:12px;font-weight:500;cursor:pointer;border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.85);transition:all 0.18s var(--ease);white-space:nowrap;}
+.nbtn:hover{background:rgba(255,255,255,0.16);border-color:rgba(255,255,255,0.28);color:#fff;}
+.nbtn.active{background:rgba(255,255,255,0.18);border-color:rgba(255,255,255,0.35);color:#fff;}
+.nbtn svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0;}
+.nbtn-primary{background:var(--white);color:var(--blue);border-color:transparent;font-weight:600;}
+.nbtn-primary:hover{background:rgba(255,255,255,0.92);}
+.nbtn-primary svg{stroke:var(--blue);}
 
-  /* ── LAYOUT ──────────────────────────────────────────────────────────────── */
-  .app { display: flex; height: 100vh; padding-top: 56px; }
+.app{display:flex;height:100vh;padding-top:var(--nav-h);}
 
-  /* Left panel */
-  .left-panel {
-    width: 340px; min-width: 320px; background: var(--white);
-    border-right: 1px solid var(--kpmg-mid-grey);
-    overflow-y: auto; display: flex; flex-direction: column;
-  }
+.panel{width:var(--panel-w);flex-shrink:0;background:var(--white);border-right:1px solid var(--g08);display:flex;flex-direction:column;overflow:hidden;}
+.panel-head{padding:20px 22px 18px;border-bottom:1px solid var(--g08);flex-shrink:0;}
+.panel-head-label{font-size:10px;font-weight:700;color:var(--g30);text-transform:uppercase;letter-spacing:1.2px;}
+.panel-body{flex:1;overflow-y:auto;padding:18px 22px;display:flex;flex-direction:column;gap:18px;}
 
-  /* Main content */
-  .main { flex: 1; overflow-y: auto; position: relative; }
+.field{display:flex;flex-direction:column;gap:6px;}
+.flabel{font-size:10.5px;font-weight:700;color:var(--g50);text-transform:uppercase;letter-spacing:0.8px;display:flex;align-items:center;gap:4px;}
+.req{color:var(--red);}
+.hint{font-size:10px;color:var(--g30);margin-top:3px;line-height:1.5;}
+.hint a{color:var(--cobalt);text-decoration:none;}
+.hint a:hover{text-decoration:underline;}
 
-  /* Right sidebar (chatbot) */
-  .sidebar {
-    width: var(--sidebar-w); background: var(--white);
-    border-left: 1px solid var(--kpmg-mid-grey);
-    display: flex; flex-direction: column;
-    transform: translateX(100%); transition: transform 0.3s ease;
-    position: fixed; right: 0; top: 56px; bottom: 0; z-index: 50;
-  }
-  .sidebar.open { transform: translateX(0); }
+.finput,.ftextarea{width:100%;background:var(--g04);border:1.5px solid var(--g08);border-radius:var(--r-sm);padding:9px 12px;font-family:var(--font);font-size:13px;color:var(--g90);outline:none;transition:border-color 0.15s,background 0.15s,box-shadow 0.15s;line-height:1.5;}
+.finput:hover,.ftextarea:hover{border-color:var(--g15);}
+.finput:focus,.ftextarea:focus{border-color:var(--cobalt);background:var(--white);box-shadow:0 0 0 3px var(--cobalt-10);}
+.finput::placeholder,.ftextarea::placeholder{color:var(--g30);}
+.ftextarea{resize:vertical;min-height:72px;}
 
-  /* ── LEFT PANEL STYLES ──────────────────────────────────────────────────── */
-  .panel-header {
-    background: var(--kpmg-blue); padding: 20px 20px 16px;
-    border-bottom: 3px solid var(--kpmg-cobalt);
-  }
-  .panel-header h2 { color: var(--white); font-size: 14px; font-weight: 700; letter-spacing: 0.5px; }
-  .panel-header p { color: rgba(255,255,255,0.65); font-size: 11px; margin-top: 3px; }
+.key-wrap{position:relative;}
+.key-wrap .finput{padding-right:38px;}
+.key-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:var(--g30);display:flex;padding:2px;transition:color 0.15s;border-radius:3px;}
+.key-eye:hover{color:var(--g70);}
+.key-eye svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;}
 
-  .panel-body { flex: 1; padding: 20px; }
+.divider{border:none;border-top:1px solid var(--g08);}
 
-  .field-group { margin-bottom: 18px; }
-  .field-label {
-    display: block; font-size: 11px; font-weight: 700; color: var(--kpmg-grey);
-    text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px;
-  }
-  .field-input {
-    width: 100%; padding: 10px 12px; border: 1.5px solid var(--kpmg-mid-grey);
-    border-radius: 3px; font-family: var(--font); font-size: 13px;
-    transition: border-color var(--transition); background: #FAFAFA;
-    outline: none; color: var(--text-dark);
-  }
-  .field-input:focus { border-color: var(--kpmg-cobalt); background: var(--white); }
-  textarea.field-input { resize: vertical; min-height: 72px; line-height: 1.5; }
+.sec-row{display:flex;gap:7px;}
+.sec-row .finput{flex:1;}
+.sec-add-btn{width:36px;height:36px;flex-shrink:0;background:var(--blue);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;transition:background 0.15s;font-weight:300;}
+.sec-add-btn:hover{background:var(--blue-hover);}
+.sec-list{display:flex;flex-direction:column;gap:4px;margin-top:4px;}
+.sec-item{display:flex;align-items:center;gap:8px;background:var(--g04);border:1px solid var(--g08);border-radius:var(--r-sm);padding:7px 10px;font-size:12px;color:var(--g70);transition:border-color 0.15s,background 0.15s;}
+.sec-item:hover{border-color:var(--g15);background:#fff;}
+.drag{color:var(--g15);font-size:12px;cursor:grab;flex-shrink:0;letter-spacing:-1px;}
+.sec-name{flex:1;line-height:1.4;}
+.sec-del{background:none;border:none;cursor:pointer;color:var(--g15);display:flex;padding:1px;border-radius:3px;transition:color 0.15s;}
+.sec-del:hover{color:var(--red);}
+.sec-del svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;}
+.sec-empty{font-size:11px;color:var(--g30);text-align:center;padding:14px;border:1.5px dashed var(--g08);border-radius:var(--r-sm);line-height:1.6;margin-top:4px;}
 
-  .api-key-wrap { position: relative; }
-  .api-key-wrap .field-input { padding-right: 40px; }
-  .eye-btn {
-    position: absolute; right: 10px; top: 50%; transform: translateY(-50%);
-    background: none; border: none; cursor: pointer; color: var(--kpmg-grey); font-size: 16px;
-  }
+.panel-foot{padding:14px 22px 18px;border-top:1px solid var(--g08);flex-shrink:0;display:flex;flex-direction:column;gap:8px;}
+.btn-gen{width:100%;padding:11px 16px;background:var(--blue);color:#fff;border:none;border-radius:var(--r-sm);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:background 0.15s;box-shadow:0 1px 3px rgba(0,51,141,0.3);}
+.btn-gen:hover:not(:disabled){background:var(--blue-hover);}
+.btn-gen:disabled{background:var(--g15);box-shadow:none;cursor:not-allowed;color:var(--g30);}
+.btn-gen svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
 
-  /* Section chips */
-  .section-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-  .chip {
-    background: var(--kpmg-light-grey); color: var(--kpmg-grey);
-    border: 1.5px solid var(--kpmg-mid-grey); border-radius: 20px;
-    padding: 4px 10px; font-size: 11px; cursor: pointer; transition: var(--transition);
-    display: flex; align-items: center; gap: 5px;
-  }
-  .chip.active { background: var(--kpmg-blue); color: var(--white); border-color: var(--kpmg-blue); }
-  .chip:hover:not(.active) { border-color: var(--kpmg-cobalt); color: var(--kpmg-cobalt); }
+.btn-dl{width:100%;padding:9px 16px;background:transparent;color:var(--blue);border:1.5px solid var(--g15);border-radius:var(--r-sm);font-family:var(--font);font-size:12.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:7px;transition:all 0.15s;}
+.btn-dl:hover:not(:disabled){background:var(--blue);color:#fff;border-color:var(--blue);}
+.btn-dl:disabled{opacity:0.3;cursor:not-allowed;}
+.btn-dl svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
 
-  .divider { border: none; border-top: 1px solid var(--kpmg-light-grey); margin: 16px 0; }
+.prog{display:none;}
+.prog-track{height:2px;background:var(--g08);border-radius:2px;overflow:hidden;}
+.prog-fill{height:2px;background:linear-gradient(90deg,var(--cobalt),var(--teal));width:0%;transition:width 0.4s var(--ease);}
+.prog-label{font-size:10px;color:var(--g30);margin-top:5px;display:flex;align-items:center;gap:5px;}
+.prog-dot{width:4px;height:4px;background:var(--cobalt);border-radius:50%;animation:pulse 1.4s ease infinite;flex-shrink:0;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.8)}}
 
-  /* Generate button */
-  .btn-generate {
-    width: 100%; padding: 14px; background: var(--kpmg-blue); color: var(--white);
-    border: none; border-radius: 3px; font-family: var(--font); font-size: 14px;
-    font-weight: 700; cursor: pointer; transition: background var(--transition);
-    letter-spacing: 0.3px; display: flex; align-items: center; justify-content: center; gap: 8px;
-  }
-  .btn-generate:hover { background: var(--kpmg-light-blue); }
-  .btn-generate:disabled { background: var(--kpmg-mid-grey); cursor: not-allowed; }
+.main{flex:1;overflow-y:auto;min-width:0;}
+.main-inner{max-width:820px;margin:0 auto;padding:40px 40px 80px;}
 
-  .btn-download {
-    width: 100%; padding: 11px; margin-top: 10px;
-    background: var(--white); color: var(--kpmg-blue);
-    border: 2px solid var(--kpmg-blue); border-radius: 3px;
-    font-family: var(--font); font-size: 13px; font-weight: 700;
-    cursor: pointer; transition: var(--transition);
-    display: flex; align-items: center; justify-content: center; gap: 7px;
-  }
-  .btn-download:hover { background: var(--kpmg-blue); color: var(--white); }
-  .btn-download:disabled { opacity: 0.4; cursor: not-allowed; }
+.welcome{min-height:calc(100vh - var(--nav-h) - 60px);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px;}
+.welcome-logo{margin-bottom:24px;background:var(--blue);border-radius:8px;width:64px;height:64px;display:flex;align-items:center;justify-content:center;margin:0 auto 28px;}
+.welcome-logo span{font-size:20px;font-weight:900;color:#fff;letter-spacing:2px;}
+.welcome h1{font-family:var(--serif);font-size:32px;font-weight:400;color:var(--blue);line-height:1.2;margin-bottom:48px;letter-spacing:-0.2px;}
 
-  /* Progress */
-  .progress-wrap { margin-top: 14px; }
-  .progress-bar-bg { background: var(--kpmg-light-grey); height: 4px; border-radius: 2px; }
-  .progress-bar { background: var(--kpmg-cobalt); height: 4px; border-radius: 2px; width: 0%; transition: width 0.4s ease; }
-  .progress-status { font-size: 11px; color: var(--kpmg-grey); margin-top: 6px; }
+.steps{display:grid;grid-template-columns:repeat(4,1fr);max-width:680px;width:100%;border:1px solid var(--g08);border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm);}
+.step{padding:24px 20px;background:var(--white);border-right:1px solid var(--g08);text-align:left;position:relative;}
+.step:last-child{border-right:none;}
+.step-bar{position:absolute;top:0;left:0;right:0;height:2px;background:var(--blue);}
+.step:nth-child(2) .step-bar{background:linear-gradient(90deg,var(--blue),var(--blue-mid));}
+.step:nth-child(3) .step-bar{background:linear-gradient(90deg,var(--blue-mid),var(--cobalt));}
+.step:nth-child(4) .step-bar{background:linear-gradient(90deg,var(--cobalt),var(--teal));}
+.step-num{font-size:11px;font-weight:700;color:var(--cobalt);letter-spacing:0.5px;margin-bottom:12px;}
+.step-title{font-size:13px;font-weight:600;color:var(--g90);margin-bottom:6px;}
+.step-desc{font-size:11px;color:var(--g50);line-height:1.65;}
 
-  /* ── MAIN CONTENT ─────────────────────────────────────────────────────────── */
-  .main-content { max-width: 900px; margin: 0 auto; padding: 32px 40px; }
+.edit-bar{display:none;align-items:center;gap:10px;background:var(--teal-10);border:1px solid var(--teal);border-radius:var(--r-sm);padding:9px 14px;margin-bottom:20px;font-size:12px;color:var(--teal);font-weight:500;}
+.edit-bar.on{display:flex;}
+.edit-close{margin-left:auto;background:none;border:1px solid var(--teal);color:var(--teal);border-radius:var(--r-sm);padding:3px 10px;font-size:11px;font-weight:600;cursor:pointer;transition:all 0.15s;}
+.edit-close:hover{background:var(--teal);color:#fff;}
 
-  /* Welcome screen */
-  .welcome {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    min-height: calc(100vh - 56px - 64px); text-align: center; padding: 40px;
-  }
-  .welcome-logo {
-    width: 72px; height: 72px; background: var(--kpmg-blue); border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px; font-weight: 900; color: white; letter-spacing: 2px;
-    margin-bottom: 24px; box-shadow: 0 8px 32px rgba(0,51,141,0.25);
-  }
-  .welcome h1 { font-size: 26px; font-weight: 800; color: var(--kpmg-blue); margin-bottom: 10px; }
-  .welcome p { font-size: 14px; color: var(--kpmg-grey); max-width: 460px; line-height: 1.65; }
-  .welcome-steps {
-    display: flex; gap: 20px; margin-top: 36px; flex-wrap: wrap; justify-content: center;
-  }
-  .step-card {
-    background: var(--white); border: 1px solid var(--kpmg-mid-grey);
-    border-radius: 6px; padding: 18px; width: 180px; text-align: left;
-    border-top: 3px solid var(--kpmg-cobalt);
-  }
-  .step-num { font-size: 22px; font-weight: 900; color: var(--kpmg-light-grey); }
-  .step-title { font-size: 12px; font-weight: 700; color: var(--kpmg-blue); margin: 4px 0; }
-  .step-desc { font-size: 11px; color: var(--kpmg-grey); line-height: 1.5; }
+.rp{display:none;}
+.rp.on{display:block;}
 
-  /* Report preview */
-  .report-preview { display: none; }
-  .report-preview.visible { display: block; }
+.rp-cover{border-radius:var(--r-xl);overflow:hidden;margin-bottom:24px;position:relative;background:linear-gradient(135deg,var(--blue) 0%,#001f5e 100%);padding:48px 44px 44px;}
+.rp-cover-bg{position:absolute;inset:0;overflow:hidden;pointer-events:none;}
+.rp-cover-bg::before{content:'';position:absolute;right:-80px;top:-80px;width:360px;height:360px;border-radius:50%;border:1px solid rgba(255,255,255,0.06);}
+.rp-cover-bg::after{content:'';position:absolute;right:60px;top:60px;width:180px;height:180px;border-radius:50%;border:1px solid rgba(255,255,255,0.04);}
+.rp-cover-stripe{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--cobalt),var(--teal));}
+.rp-cover-tag{font-size:9.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--cobalt);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.rp-cover-tag::before{content:'';width:20px;height:1px;background:var(--cobalt);}
+.rp-cover-title{font-family:var(--serif);font-size:30px;font-weight:400;color:#fff;line-height:1.2;margin-bottom:10px;letter-spacing:-0.2px;}
+.rp-cover-sub{font-size:13px;color:rgba(255,255,255,0.45);margin-bottom:32px;}
+.rp-cover-meta{display:flex;gap:20px;align-items:center;}
+.rp-meta-item{font-size:11px;color:rgba(255,255,255,0.4);}
+.rp-meta-item strong{color:rgba(255,255,255,0.75);font-weight:500;}
+.rp-meta-dot{width:2px;height:2px;background:rgba(255,255,255,0.2);border-radius:50%;}
 
-  /* Cover page preview */
-  .rp-cover {
-    background: var(--kpmg-blue); padding: 48px 40px; margin-bottom: 32px;
-    border-radius: 4px; position: relative; overflow: hidden;
-  }
-  .rp-cover::after {
-    content: ''; position: absolute; right: -30px; bottom: -30px;
-    width: 200px; height: 200px; border-radius: 50%;
-    background: rgba(255,255,255,0.05);
-  }
-  .rp-cover-tag { color: var(--kpmg-cobalt); font-size: 11px; font-weight: 700; letter-spacing: 1px; margin-bottom: 12px; }
-  .rp-cover-title { color: var(--white); font-size: 28px; font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
-  .rp-cover-sub { color: rgba(255,255,255,0.65); font-size: 14px; margin-bottom: 28px; font-style: italic; }
-  .rp-cover-meta { display: flex; gap: 24px; }
-  .rp-cover-meta span { color: rgba(255,255,255,0.5); font-size: 11px; }
-  .rp-cover-meta strong { color: var(--white); }
+.rp-exec{background:var(--white);border:1px solid var(--g08);border-left:3px solid var(--blue);border-radius:0 var(--r) var(--r) 0;padding:22px 26px;margin-bottom:20px;box-shadow:var(--shadow-sm);}
+.rp-exec-eyebrow{font-size:9px;font-weight:700;color:var(--cobalt);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;}
+.rp-exec-text{font-size:13.5px;color:var(--g70);line-height:1.85;}
+.rp-exec-lead{font-weight:600;color:var(--g90);}
 
-  /* Executive summary */
-  .rp-exec {
-    background: var(--white); border-left: 4px solid var(--kpmg-blue);
-    padding: 24px 28px; margin-bottom: 32px; border-radius: 0 4px 4px 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-  }
-  .rp-exec-label { font-size: 10px; font-weight: 700; color: var(--kpmg-cobalt); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
-  .rp-exec-text { font-size: 13px; color: var(--kpmg-grey); line-height: 1.75; }
-  .rp-exec-first { font-weight: 700; color: var(--kpmg-blue); }
+.rp-sec{background:var(--white);border:1px solid var(--g08);border-radius:var(--r-lg);margin-bottom:12px;box-shadow:var(--shadow-sm);overflow:hidden;transition:border-color 0.15s,box-shadow 0.15s;}
+.rp-sec:hover{border-color:var(--g15);box-shadow:var(--shadow);}
+.rp-sec-head{display:flex;align-items:center;gap:14px;padding:17px 22px;cursor:pointer;user-select:none;transition:background 0.12s;}
+.rp-sec-head:hover{background:var(--g04);}
+.sec-badge{width:34px;height:34px;flex-shrink:0;border-radius:var(--r-sm);background:var(--blue);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+.rp-sec-title{flex:1;font-size:13.5px;font-weight:600;color:var(--g90);}
+.rp-chevron{color:var(--g30);transition:transform 0.2s var(--ease);display:flex;align-items:center;}
+.rp-chevron svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+.rp-sec.collapsed .rp-chevron{transform:rotate(-90deg);}
+.rp-sec-body{border-top:1px solid var(--g04);padding:22px;}
+.rp-sec-body.hide{display:none;}
 
-  /* Section card */
-  .rp-section {
-    background: var(--white); border-radius: 4px; margin-bottom: 24px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05); overflow: hidden;
-  }
-  .rp-section-header {
-    display: flex; align-items: center; gap: 16px;
-    padding: 20px 24px; border-bottom: 1px solid var(--kpmg-light-grey);
-    cursor: pointer; user-select: none;
-  }
-  .rp-section-header:hover { background: #F9FAFB; }
-  .section-num-badge {
-    min-width: 40px; height: 40px; background: var(--kpmg-blue); border-radius: 3px;
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 14px; font-weight: 900;
-  }
-  .rp-section-title { flex: 1; font-size: 15px; font-weight: 700; color: var(--kpmg-blue); }
-  .collapse-icon { color: var(--kpmg-grey); font-size: 18px; transition: transform 0.2s; }
-  .collapsed .collapse-icon { transform: rotate(-90deg); }
+.stats-grid{display:flex;gap:10px;padding-bottom:20px;flex-wrap:wrap;}
+.stat-card{flex:1;min-width:110px;background:var(--g04);border:1px solid var(--g08);border-radius:var(--r);padding:14px 12px;text-align:center;position:relative;overflow:hidden;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--cobalt),var(--teal));}
+.stat-val{font-size:22px;font-weight:700;color:var(--blue);letter-spacing:-0.5px;line-height:1;margin-bottom:5px;}
+.stat-lbl{font-size:10px;color:var(--g50);line-height:1.45;}
 
-  .rp-section-body { padding: 24px; }
-  .rp-section-body.hidden { display: none; }
+.sec-content{font-size:13.5px;color:var(--g70);line-height:1.85;}
+.sec-content p{margin-bottom:12px;}
+.sec-content p:last-child{margin-bottom:0;}
+.subsec{margin-top:20px;padding-top:18px;border-top:1px solid var(--g08);}
+.subsec-title{font-size:11px;font-weight:700;color:var(--blue-mid);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;}
+.ref-row{display:flex;gap:10px;font-size:12px;color:var(--g70);line-height:1.6;margin-bottom:8px;}
+.ref-n{color:var(--blue);font-weight:700;min-width:22px;flex-shrink:0;}
+.ref-url{color:var(--cobalt);word-break:break-all;}
 
-  /* Stats row */
-  .stats-row { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
-  .stat-card {
-    flex: 1; min-width: 140px; background: var(--kpmg-light-grey);
-    border-top: 3px solid var(--kpmg-cobalt); padding: 16px 14px; border-radius: 3px;
-    text-align: center;
-  }
-  .stat-val { font-size: 22px; font-weight: 900; color: var(--kpmg-blue); }
-  .stat-lbl { font-size: 10px; color: var(--kpmg-grey); margin-top: 4px; line-height: 1.4; }
+.rp-concl{background:var(--white);border:1px solid var(--g08);border-left:3px solid var(--teal);border-radius:0 var(--r) var(--r) 0;padding:22px 26px;margin-bottom:20px;box-shadow:var(--shadow-sm);}
+.rp-concl-eyebrow{font-size:9px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;}
 
-  /* Section content */
-  .section-content { font-size: 13px; color: var(--kpmg-grey); line-height: 1.8; }
-  .section-content p { margin-bottom: 12px; }
-  .subsection { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--kpmg-light-grey); }
-  .subsection-title { font-size: 13px; font-weight: 700; color: var(--kpmg-light-blue); margin-bottom: 8px; }
+[data-field][contenteditable="true"]{outline:none;border-bottom:1.5px dashed var(--cobalt);cursor:text;padding-bottom:1px;}
 
-  /* References */
-  .ref-item { display: flex; gap: 12px; margin-bottom: 10px; font-size: 12px; color: var(--kpmg-grey); line-height: 1.55; }
-  .ref-num { color: var(--kpmg-blue); font-weight: 700; min-width: 22px; }
-  .ref-url { color: var(--kpmg-cobalt); word-break: break-all; }
+.chat{width:var(--chat-w);background:var(--white);border-left:1px solid var(--g08);display:flex;flex-direction:column;position:fixed;right:0;top:var(--nav-h);bottom:0;z-index:200;transform:translateX(102%);transition:transform 0.3s var(--ease);box-shadow:var(--shadow-lg);}
+.chat.open{transform:translateX(0);}
+.chat-head{background:var(--blue);padding:18px 20px;display:flex;align-items:flex-start;justify-content:space-between;flex-shrink:0;}
+.chat-head-info h3{color:#fff;font-size:13px;font-weight:600;margin-bottom:2px;}
+.chat-head-info p{color:rgba(255,255,255,0.45);font-size:11px;}
+.chat-close-btn{background:rgba(255,255,255,0.10);border:none;color:rgba(255,255,255,0.7);width:26px;height:26px;border-radius:6px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;line-height:1;transition:all 0.15s;flex-shrink:0;}
+.chat-close-btn:hover{background:rgba(255,255,255,0.2);color:#fff;}
+.chat-msgs{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;}
+.cmsg{max-width:86%;}
+.cmsg.u{align-self:flex-end;}
+.cmsg.b{align-self:flex-start;}
+.cbubble{padding:10px 14px;font-size:12.5px;line-height:1.65;border-radius:14px;}
+.cmsg.u .cbubble{background:var(--blue);color:#fff;border-radius:14px 14px 3px 14px;}
+.cmsg.b .cbubble{background:var(--g04);color:var(--g90);border-radius:14px 14px 14px 3px;border:1px solid var(--g08);}
+.chat-suggestions{display:flex;flex-wrap:wrap;gap:5px;padding:4px 16px 12px;}
+.csugg{background:var(--g04);border:1px solid var(--g08);border-radius:100px;padding:5px 13px;font-size:11px;color:var(--blue);font-weight:500;cursor:pointer;transition:all 0.15s;}
+.csugg:hover{background:var(--blue);color:#fff;border-color:var(--blue);}
+.chat-foot{padding:12px 14px;border-top:1px solid var(--g08);flex-shrink:0;}
+.chat-inp-row{display:flex;gap:8px;align-items:flex-end;}
+.chat-inp{flex:1;border:1.5px solid var(--g08);border-radius:20px;padding:9px 14px;font-family:var(--font);font-size:12.5px;outline:none;resize:none;max-height:80px;line-height:1.45;background:var(--g04);color:var(--g90);transition:border-color 0.15s,background 0.15s;}
+.chat-inp:focus{border-color:var(--cobalt);background:#fff;box-shadow:0 0 0 3px var(--cobalt-10);}
+.chat-inp::placeholder{color:var(--g30);}
+.csend{background:var(--blue);color:#fff;border:none;border-radius:50%;width:36px;height:36px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background 0.15s;box-shadow:0 1px 4px rgba(0,51,141,0.3);}
+.csend:hover:not(:disabled){background:var(--blue-hover);}
+.csend:disabled{background:var(--g15);box-shadow:none;cursor:not-allowed;}
+.csend svg{width:13px;height:13px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
+.typing{display:flex;gap:4px;align-items:center;padding:10px 14px;}
+.tdot{width:5px;height:5px;background:var(--g30);border-radius:50%;animation:tdot 1.2s ease infinite;}
+.tdot:nth-child(2){animation-delay:.15s}.tdot:nth-child(3){animation-delay:.3s}
+@keyframes tdot{0%,60%,100%{transform:translateY(0);opacity:0.6}30%{transform:translateY(-4px);opacity:1}}
 
-  /* Edit inline */
-  .section-content [contenteditable="true"] {
-    border: 1.5px dashed var(--kpmg-cobalt);
-    border-radius: 3px; padding: 4px 8px; outline: none;
-    background: rgba(0,145,218,0.03); cursor: text;
-    min-height: 20px;
-  }
-  .edit-controls {
-    display: flex; gap: 8px; margin-top: 10px; justify-content: flex-end;
-  }
-  .btn-sm {
-    padding: 5px 12px; border-radius: 3px; font-size: 11px; font-weight: 700;
-    cursor: pointer; border: none; transition: var(--transition);
-  }
-  .btn-sm.primary { background: var(--kpmg-blue); color: white; }
-  .btn-sm.secondary { background: var(--kpmg-light-grey); color: var(--kpmg-grey); }
-  .btn-sm:hover.primary { background: var(--kpmg-light-blue); }
+.loader{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,20,80,0.85);backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center;}
+.loader.on{display:flex;}
+.loader-ring{width:48px;height:48px;border-radius:50%;border:2.5px solid rgba(255,255,255,0.12);border-top-color:#fff;animation:spin 0.7s linear infinite;margin-bottom:20px;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loader-msg{color:#fff;font-size:14px;font-weight:500;}
+.loader-sub{color:rgba(255,255,255,0.4);font-size:11.5px;margin-top:6px;}
 
-  /* Editing mode toggle */
-  .edit-mode-bar {
-    display: none; background: rgba(0,178,169,0.08); border: 1px solid var(--kpmg-teal);
-    border-radius: 4px; padding: 10px 16px; margin-bottom: 20px;
-    align-items: center; gap: 10px; font-size: 12px; color: var(--kpmg-teal);
-    font-weight: 700;
-  }
-  .edit-mode-bar.visible { display: flex; }
+.toast{position:fixed;bottom:24px;right:24px;z-index:700;background:var(--g90);color:#fff;padding:10px 16px;border-radius:var(--r);font-size:12.5px;font-weight:500;transform:translateY(80px);opacity:0;transition:all 0.25s var(--ease);display:flex;align-items:center;gap:8px;max-width:280px;box-shadow:var(--shadow-lg);pointer-events:none;}
+.toast.on{transform:translateY(0);opacity:1;pointer-events:auto;}
+.toast.ok{border-left:3px solid var(--teal);}
+.toast.err{border-left:3px solid var(--red);}
 
-  /* ── CHATBOT ──────────────────────────────────────────────────────────────── */
-  .chat-header {
-    background: var(--kpmg-blue); padding: 16px 18px;
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .chat-header h3 { color: var(--white); font-size: 13px; font-weight: 700; }
-  .chat-header p { color: rgba(255,255,255,0.55); font-size: 10px; }
-  .chat-close { color: white; background: none; border: none; cursor: pointer; font-size: 20px; opacity: 0.7; }
-  .chat-close:hover { opacity: 1; }
-
-  .chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-
-  .chat-msg { max-width: 88%; }
-  .chat-msg.user { align-self: flex-end; }
-  .chat-msg.bot { align-self: flex-start; }
-
-  .chat-bubble {
-    padding: 10px 14px; border-radius: 12px; font-size: 12.5px; line-height: 1.6;
-  }
-  .chat-msg.user .chat-bubble { background: var(--kpmg-blue); color: white; border-radius: 12px 12px 3px 12px; }
-  .chat-msg.bot .chat-bubble { background: var(--kpmg-light-grey); color: var(--text-dark); border-radius: 12px 12px 12px 3px; }
-
-  .chat-suggestions { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 12px; }
-  .suggest-chip {
-    background: var(--kpmg-light-grey); border: 1px solid var(--kpmg-mid-grey);
-    border-radius: 16px; padding: 5px 12px; font-size: 11px;
-    cursor: pointer; color: var(--kpmg-blue); font-weight: 600;
-    transition: var(--transition);
-  }
-  .suggest-chip:hover { background: var(--kpmg-blue); color: white; border-color: var(--kpmg-blue); }
-
-  .chat-input-area { padding: 14px; border-top: 1px solid var(--kpmg-light-grey); }
-  .chat-input-wrap { display: flex; gap: 8px; align-items: flex-end; }
-  .chat-input {
-    flex: 1; border: 1.5px solid var(--kpmg-mid-grey); border-radius: 20px;
-    padding: 9px 14px; font-family: var(--font); font-size: 12.5px;
-    outline: none; resize: none; max-height: 80px; line-height: 1.4;
-    transition: border-color var(--transition);
-  }
-  .chat-input:focus { border-color: var(--kpmg-cobalt); }
-  .chat-send {
-    background: var(--kpmg-blue); color: white; border: none; border-radius: 50%;
-    width: 36px; height: 36px; cursor: pointer; display: flex;
-    align-items: center; justify-content: center; font-size: 16px;
-    flex-shrink: 0; transition: background var(--transition);
-  }
-  .chat-send:hover { background: var(--kpmg-light-blue); }
-  .chat-send:disabled { background: var(--kpmg-mid-grey); cursor: not-allowed; }
-
-  .typing-indicator { display: flex; gap: 4px; padding: 10px 14px; }
-  .typing-dot {
-    width: 6px; height: 6px; background: var(--kpmg-grey); border-radius: 50%;
-    animation: typingBounce 1.2s ease infinite;
-  }
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-  @keyframes typingBounce {
-    0%, 60%, 100% { transform: translateY(0); }
-    30% { transform: translateY(-6px); }
-  }
-
-  /* ── LOADING OVERLAY ─────────────────────────────────────────────────────── */
-  .loading-overlay {
-    display: none; position: fixed; inset: 0; background: rgba(0,51,141,0.85);
-    z-index: 200; flex-direction: column; align-items: center; justify-content: center;
-    backdrop-filter: blur(4px);
-  }
-  .loading-overlay.active { display: flex; }
-  .loading-spinner {
-    width: 56px; height: 56px; border: 3px solid rgba(255,255,255,0.2);
-    border-top-color: white; border-radius: 50%;
-    animation: spin 0.8s linear infinite; margin-bottom: 20px;
-  }
-  .loading-msg { color: white; font-size: 15px; font-weight: 600; }
-  .loading-sub { color: rgba(255,255,255,0.6); font-size: 12px; margin-top: 6px; }
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* Toast */
-  .toast {
-    position: fixed; bottom: 24px; right: 24px; z-index: 300;
-    background: var(--kpmg-dark); color: white; padding: 12px 20px;
-    border-radius: 4px; font-size: 13px; font-weight: 600;
-    transform: translateY(60px); opacity: 0; transition: all 0.3s ease;
-    display: flex; align-items: center; gap: 8px;
-    max-width: 320px;
-  }
-  .toast.show { transform: translateY(0); opacity: 1; }
-  .toast.success { border-left: 3px solid var(--kpmg-teal); }
-  .toast.error { border-left: 3px solid #E74C3C; }
-
-  /* Responsive */
-  @media (max-width: 900px) {
-    .left-panel { width: 280px; }
-    .main-content { padding: 20px; }
-  }
-  @media (max-width: 640px) {
-    .left-panel { display: none; }
-  }
-
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 5px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: var(--kpmg-mid-grey); border-radius: 3px; }
+@media(max-width:820px){.panel{width:280px;}.main-inner{padding:24px 24px 60px;}}
+@media(max-width:640px){.panel{display:none;}}
 </style>
 </head>
 <body>
 
-<!-- TOP NAV -->
 <nav class="nav">
-  <div class="nav-brand">
-    <div class="nav-logo">KPMG</div>
-    <span class="nav-title">Report Intelligence Platform · India</span>
+  <div class="nav-left">
+    <div class="nav-logo-wrap"><span class="nav-logo-text">KPMG</span></div>
+    <div class="nav-sep"></div>
+    <span class="nav-title">Report Intelligence Platform &middot; India</span>
   </div>
-  <div class="nav-actions">
-    <button class="nav-pill" id="editModeBtn" onclick="toggleEditMode()">✏️ Edit Mode</button>
-    <button class="nav-pill" id="chatBtn" onclick="toggleChat()">
-      💬 AI Assistant <span class="badge" id="chatBadge" style="display:none">!</span>
+  <div class="nav-right">
+    <button class="nbtn" id="editBtn" onclick="toggleEdit()">
+      <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Edit mode
     </button>
-    <button class="nav-pill" id="downloadNavBtn" onclick="downloadDocx()" style="display:none">⬇️ Download DOCX</button>
+    <button class="nbtn" id="chatBtn" onclick="toggleChat()">
+      <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      AI assistant
+    </button>
+    <button class="nbtn nbtn-primary" id="dlNavBtn" onclick="dlDocx()" style="display:none">
+      <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Download
+    </button>
   </div>
 </nav>
 
-<!-- APP LAYOUT -->
 <div class="app">
-
-  <!-- LEFT PANEL -->
-  <aside class="left-panel">
-    <div class="panel-header">
-      <h2>🔬 Report Configuration</h2>
-      <p>Configure, generate and refine your KPMG report</p>
+  <aside class="panel">
+    <div class="panel-head">
+      <div class="panel-head-label">Configuration</div>
     </div>
     <div class="panel-body">
 
-      <!-- Groq API Key -->
-      <div class="field-group">
-        <label class="field-label">Groq API Key <span style="color:#E74C3C">*</span></label>
-        <div class="api-key-wrap">
-          <input type="password" class="field-input" id="groqKey" placeholder="gsk_..." />
-          <button class="eye-btn" onclick="toggleApiKey()">👁</button>
+      <div class="field">
+        <label class="flabel">Groq API Key <span class="req">*</span></label>
+        <div class="key-wrap">
+          <input type="password" class="finput" id="groqKey" placeholder="gsk_..." />
+          <button class="key-eye" onclick="toggleKey()">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
         </div>
-        <div style="font-size:10px;color:var(--kpmg-grey);margin-top:5px;">
-          Your key is never stored. Get one at <a href="https://console.groq.com" target="_blank" style="color:var(--kpmg-cobalt)">console.groq.com</a>
-        </div>
+        <div class="hint">Free &amp; fast. <a href="https://console.groq.com" target="_blank">Get your key at console.groq.com &rarr;</a></div>
       </div>
 
       <hr class="divider">
 
-      <!-- Topic -->
-      <div class="field-group">
-        <label class="field-label">Report Topic <span style="color:#E74C3C">*</span></label>
-        <textarea class="field-input" id="reportTopic" placeholder="e.g. Sustainable Finance and ESG Reporting in Indian Capital Markets" rows="3"></textarea>
-      </div>
-
-      <!-- Quick topics -->
-      <div style="font-size:10px;font-weight:700;color:var(--kpmg-grey);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">Quick Topics</div>
-      <div class="section-chips" id="topicChips">
-        <div class="chip" onclick="setTopic(this, 'Digital Banking Transformation in India')">Digital Banking</div>
-        <div class="chip" onclick="setTopic(this, 'Electric Vehicle Ecosystem and Charging Infrastructure in India')">EV Ecosystem</div>
-        <div class="chip" onclick="setTopic(this, 'Generative AI Adoption in Indian Enterprises')">GenAI India</div>
-        <div class="chip" onclick="setTopic(this, 'Healthcare Technology and Telemedicine Growth in India')">HealthTech</div>
-        <div class="chip" onclick="setTopic(this, 'Sustainable Supply Chain and ESG Compliance in India')">ESG & Supply Chain</div>
-        <div class="chip" onclick="setTopic(this, 'India\'s Semiconductor Manufacturing Ambitions')">Semiconductors</div>
-        <div class="chip" onclick="setTopic(this, 'Fintech Regulation and Open Banking in India')">Fintech Regulation</div>
-        <div class="chip" onclick="setTopic(this, 'Cybersecurity Landscape and Data Protection in India')">Cybersecurity</div>
+      <div class="field">
+        <label class="flabel">Report topic <span class="req">*</span></label>
+        <textarea class="ftextarea" id="topicInput" rows="3" placeholder="e.g. Generative AI adoption in Indian enterprises&hellip;"></textarea>
       </div>
 
       <hr class="divider">
 
-      <!-- Sections -->
-      <div class="field-group">
-        <label class="field-label">Report Sections</label>
-        <div style="font-size:11px;color:var(--kpmg-grey);margin-bottom:8px;">Select sections to include (or use defaults)</div>
-        <div class="section-chips" id="sectionChips">
-          <div class="chip active" data-section="Executive Summary">Executive Summary</div>
-          <div class="chip active" data-section="Industry Overview & Current Landscape">Industry Overview</div>
-          <div class="chip active" data-section="Key Trends and Developments">Key Trends</div>
-          <div class="chip active" data-section="Strategic Implications">Strategic Implications</div>
-          <div class="chip active" data-section="Opportunities and Challenges">Opportunities</div>
-          <div class="chip active" data-section="Policy and Regulatory Environment">Policy & Regulation</div>
-          <div class="chip active" data-section="Recommendations">Recommendations</div>
-          <div class="chip active" data-section="References">References</div>
-          <div class="chip" data-section="Comparative Global Benchmarks">Global Benchmarks</div>
-          <div class="chip" data-section="Technology Infrastructure">Tech Infrastructure</div>
-          <div class="chip" data-section="Talent and Workforce">Talent & Workforce</div>
-          <div class="chip" data-section="Investment Landscape">Investment Landscape</div>
+      <div class="field">
+        <label class="flabel">Sections <span class="req">*</span></label>
+        <div class="sec-row">
+          <input type="text" class="finput" id="secInput" placeholder="e.g. Market Analysis" />
+          <button class="sec-add-btn" onclick="addSec()">+</button>
         </div>
+        <div class="sec-list" id="secList"></div>
+        <div class="sec-empty" id="secEmpty">No sections added yet.<br>Add at least one above.</div>
       </div>
 
-      <hr class="divider">
-
-      <!-- Generate -->
-      <button class="btn-generate" id="generateBtn" onclick="generateReport()">
-        <span>⚡</span> Generate KPMG Report
+    </div>
+    <div class="panel-foot">
+      <div class="prog" id="prog">
+        <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+        <div class="prog-label"><div class="prog-dot"></div><span id="progMsg">Starting&hellip;</span></div>
+      </div>
+      <button class="btn-gen" id="genBtn" onclick="generate()">
+        <svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Generate report
       </button>
-
-      <div class="progress-wrap" id="progressWrap" style="display:none">
-        <div class="progress-bar-bg"><div class="progress-bar" id="progressBar"></div></div>
-        <div class="progress-status" id="progressStatus">Initialising...</div>
-      </div>
-
-      <button class="btn-download" id="downloadBtn" onclick="downloadDocx()" disabled>
-        ⬇️ Download as Word (.docx)
+      <button class="btn-dl" id="dlBtn" onclick="dlDocx()" disabled>
+        <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Download Word (.docx)
       </button>
-
     </div>
   </aside>
 
-  <!-- MAIN CONTENT -->
   <main class="main">
-    <div class="main-content">
-
-      <!-- Welcome -->
-      <div class="welcome" id="welcomeScreen">
-        <div class="welcome-logo">KPMG</div>
+    <div class="main-inner">
+      <div class="welcome" id="welcome">
+        <div class="welcome-logo"><span>KPMG</span></div>
         <h1>Report Intelligence Platform</h1>
-        <p>Generate publication-ready KPMG India thought leadership reports with real-time web research, professional formatting, and AI-powered editing.</p>
-        <div class="welcome-steps">
-          <div class="step-card">
-            <div class="step-num">01</div>
-            <div class="step-title">Configure</div>
-            <div class="step-desc">Add your Groq key, enter report topic and choose sections.</div>
+        <div class="steps">
+          <div class="step">
+            <div class="step-bar"></div>
+            <div class="step-num">01 &mdash; Configure</div>
+            <div class="step-title">Set your topic</div>
+            <div class="step-desc">Enter your Groq API key, report topic, and define the sections.</div>
           </div>
-          <div class="step-card">
-            <div class="step-num">02</div>
-            <div class="step-title">Generate</div>
-            <div class="step-desc">AI researches current data and drafts your KPMG-format report.</div>
+          <div class="step">
+            <div class="step-bar"></div>
+            <div class="step-num">02 &mdash; Generate</div>
+            <div class="step-title">AI drafts the report</div>
+            <div class="step-desc">LLaMA 3.3 researches and writes each section in KPMG style.</div>
           </div>
-          <div class="step-card">
-            <div class="step-num">03</div>
-            <div class="step-title">Refine</div>
-            <div class="step-desc">Edit inline or use the AI Assistant for targeted changes.</div>
+          <div class="step">
+            <div class="step-bar"></div>
+            <div class="step-num">03 &mdash; Refine</div>
+            <div class="step-title">Edit and improve</div>
+            <div class="step-desc">Use inline edit mode or the AI assistant to improve any section.</div>
           </div>
-          <div class="step-card">
-            <div class="step-num">04</div>
-            <div class="step-title">Download</div>
-            <div class="step-desc">Export as a fully formatted, editable Word document.</div>
+          <div class="step">
+            <div class="step-bar"></div>
+            <div class="step-num">04 &mdash; Export</div>
+            <div class="step-title">Download Word</div>
+            <div class="step-desc">Save a formatted .docx file ready to share or present.</div>
           </div>
         </div>
       </div>
 
-      <!-- Edit mode bar -->
-      <div class="edit-mode-bar" id="editModeBar">
-        ✏️ Edit mode active — click any text in the report to edit it directly
-        <button class="btn-sm secondary" style="margin-left:auto" onclick="toggleEditMode()">Exit Edit Mode</button>
+      <div class="edit-bar" id="editBar">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Edit mode active &mdash; click any text to edit inline
+        <button class="edit-close" onclick="toggleEdit()">Exit</button>
       </div>
 
-      <!-- Report Preview -->
-      <div class="report-preview" id="reportPreview"></div>
-
+      <div class="rp" id="rp"></div>
     </div>
   </main>
 
-  <!-- CHATBOT SIDEBAR -->
-  <aside class="sidebar" id="chatSidebar">
-    <div class="chat-header">
-      <div>
-        <h3>🤖 KPMG Report Assistant</h3>
-        <p>Ask me to edit, expand, or improve your report</p>
+  <aside class="chat" id="chat">
+    <div class="chat-head">
+      <div class="chat-head-info">
+        <h3>KPMG Report Assistant</h3>
+        <p>Powered by Groq LLaMA 3.3 &middot; Edit, expand, or refine</p>
       </div>
-      <button class="chat-close" onclick="toggleChat()">×</button>
+      <button class="chat-close-btn" onclick="toggleChat()">&#x2715;</button>
     </div>
-
-    <div class="chat-messages" id="chatMessages">
-      <div class="chat-msg bot">
-        <div class="chat-bubble">
-          👋 Hello! I'm your KPMG report assistant powered by Groq LLaMA 3.3.<br><br>
-          Once your report is generated, I can help you:<br>
-          • Edit or expand specific sections<br>
-          • Add new data points or statistics<br>
-          • Rewrite content in different tones<br>
-          • Add new sections or subsections<br>
-          • Improve executive summary or conclusion
-        </div>
+    <div class="chat-msgs" id="chatMsgs">
+      <div class="cmsg b">
+        <div class="cbubble">Hello. Once your report is generated, I can help you edit sections, add statistics, rewrite in a different tone, or improve any part of the report.</div>
       </div>
     </div>
-
-    <div class="chat-suggestions" id="chatSuggestions">
-      <div class="suggest-chip" onclick="sendSuggestion(this)">Strengthen executive summary</div>
-      <div class="suggest-chip" onclick="sendSuggestion(this)">Add more statistics</div>
-      <div class="suggest-chip" onclick="sendSuggestion(this)">Expand the recommendations</div>
-      <div class="suggest-chip" onclick="sendSuggestion(this)">Make the conclusion more impactful</div>
+    <div class="chat-suggestions">
+      <div class="csugg" onclick="cchip(this)">Strengthen executive summary</div>
+      <div class="csugg" onclick="cchip(this)">Add more data points</div>
+      <div class="csugg" onclick="cchip(this)">Expand recommendations</div>
+      <div class="csugg" onclick="cchip(this)">Sharpen the conclusion</div>
     </div>
-
-    <div class="chat-input-area">
-      <div class="chat-input-wrap">
-        <textarea class="chat-input" id="chatInput" placeholder="Ask me to edit the report..." rows="1"
-          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat()}"
-          oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
-        <button class="chat-send" id="chatSend" onclick="sendChat()">➤</button>
+    <div class="chat-foot">
+      <div class="chat-inp-row">
+        <textarea class="chat-inp" id="chatInp" placeholder="Ask me to edit the report&hellip;" rows="1"></textarea>
+        <button class="csend" id="csend" onclick="sendChat()">
+          <svg viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
       </div>
     </div>
   </aside>
 </div>
 
-<!-- LOADING OVERLAY -->
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="loading-spinner"></div>
-  <div class="loading-msg" id="loadingMsg">Researching your topic...</div>
-  <div class="loading-sub" id="loadingSub">This may take 30–60 seconds</div>
+<div class="loader" id="loader">
+  <div class="loader-ring"></div>
+  <div class="loader-msg" id="loaderMsg">Researching your topic&hellip;</div>
+  <div class="loader-sub">This may take 30&ndash;60 seconds</div>
 </div>
 
-<!-- TOAST -->
 <div class="toast" id="toast"></div>
 
 <script>
-let reportData = null;
-let editMode = false;
-let chatHistory = [];
-let isGenerating = false;
-let isChatOpen = false;
+var reportData = null;
+var editOn = false;
+var chatHistory = [];
+var busy = false;
+var chatOpen = false;
+var sections = [];
 
-// ── API KEY ───────────────────────────────────────────────────────────────────
-function toggleApiKey() {
-  const inp = document.getElementById('groqKey');
-  inp.type = inp.type === 'password' ? 'text' : 'password';
+function toggleKey() {
+  var i = document.getElementById('groqKey');
+  i.type = i.type === 'password' ? 'text' : 'password';
 }
 
-// ── TOPIC CHIPS ───────────────────────────────────────────────────────────────
-function setTopic(el, topic) {
-  document.getElementById('reportTopic').value = topic;
-  document.querySelectorAll('#topicChips .chip').forEach(c => c.classList.remove('active'));
-  el.classList.add('active');
-}
-
-// Section chips toggle
-document.querySelectorAll('#sectionChips .chip').forEach(chip => {
-  chip.addEventListener('click', () => chip.classList.toggle('active'));
+document.getElementById('secInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') { e.preventDefault(); addSec(); }
+});
+document.getElementById('chatInp').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendChat(); }
+});
+document.getElementById('chatInp').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 80) + 'px';
 });
 
-function getSelectedSections() {
-  return Array.from(document.querySelectorAll('#sectionChips .chip.active'))
-    .map(c => c.dataset.section);
+function addSec() {
+  var inp = document.getElementById('secInput');
+  var name = inp.value.trim();
+  if (!name) return;
+  for (var i = 0; i < sections.length; i++) {
+    if (sections[i].name.toLowerCase() === name.toLowerCase()) { toast('Section already exists', false); return; }
+  }
+  sections.push({ id: Date.now(), name: name });
+  inp.value = '';
+  renderSecs();
+  inp.focus();
 }
 
-// ── GENERATE REPORT ───────────────────────────────────────────────────────────
-async function generateReport() {
-  const key = document.getElementById('groqKey').value.trim();
-  const topic = document.getElementById('reportTopic').value.trim();
-
-  if (!key) return showToast('Please enter your Groq API key', 'error');
-  if (!topic) return showToast('Please enter a report topic', 'error');
-  if (isGenerating) return;
-
-  isGenerating = true;
-  const sections = getSelectedSections();
-
-  document.getElementById('generateBtn').disabled = true;
-  document.getElementById('progressWrap').style.display = 'block';
-  document.getElementById('loadingOverlay').classList.add('active');
-  setProgress(5, 'Connecting to Groq LLaMA 3.3...');
-
-  try {
-    const response = await fetch('/api/generate-report', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ topic, sections, groqKey: key })
-    });
-
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buffer += decoder.decode(value, { stream: true });
-      const lines = buffer.split('\n');
-      buffer = lines.pop();
-
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          const payload = line.slice(6).trim();
-          if (payload === '[DONE]') break;
-          try {
-            const parsed = JSON.parse(payload);
-            if (parsed.type === 'status') {
-              setProgress(null, parsed.message);
-              document.getElementById('loadingMsg').textContent = parsed.message;
-            } else if (parsed.type === 'complete') {
-              reportData = parsed.data;
-              renderReport(reportData);
-              setProgress(100, 'Report generated successfully!');
-              document.getElementById('downloadBtn').disabled = false;
-              document.getElementById('downloadNavBtn').style.display = 'flex';
-              showToast('✅ Report generated successfully!', 'success');
-            } else if (parsed.error) {
-              throw new Error(parsed.error);
-            }
-          } catch (e) {
-            if (e.message.includes('JSON')) continue;
-            throw e;
-          }
-        }
-      }
-    }
-  } catch (err) {
-    showToast('Error: ' + err.message, 'error');
-    setProgress(0, 'Generation failed');
-  } finally {
-    isGenerating = false;
-    document.getElementById('generateBtn').disabled = false;
-    document.getElementById('loadingOverlay').classList.remove('active');
-  }
+function removeSec(id) {
+  sections = sections.filter(function(s) { return s.id !== id; });
+  renderSecs();
 }
 
-let progressVal = 0;
-function setProgress(val, msg) {
-  if (val !== null) {
-    progressVal = val;
-    document.getElementById('progressBar').style.width = val + '%';
-  } else {
-    progressVal = Math.min(progressVal + 12, 90);
-    document.getElementById('progressBar').style.width = progressVal + '%';
-  }
-  if (msg) document.getElementById('progressStatus').textContent = msg;
-}
-
-// ── RENDER REPORT ─────────────────────────────────────────────────────────────
-function renderReport(data) {
-  document.getElementById('welcomeScreen').style.display = 'none';
-  const preview = document.getElementById('reportPreview');
-  preview.classList.add('visible');
-  preview.innerHTML = '';
-
-  // Cover
-  const cover = document.createElement('div');
-  cover.className = 'rp-cover';
-  cover.innerHTML = `
-    <div class="rp-cover-tag">KPMG INDIA · THOUGHT LEADERSHIP · ${new Date().getFullYear()}</div>
-    <div class="rp-cover-title">${escHtml(data.topic || '')}</div>
-    ${data.subtitle ? `<div class="rp-cover-sub">${escHtml(data.subtitle)}</div>` : ''}
-    <div class="rp-cover-meta">
-      <span><strong>${escHtml(data.date || '')}</strong></span>
-      <span>kpmg.com/in</span>
-    </div>
-  `;
-  preview.appendChild(cover);
-
-  // Executive Summary
-  if (data.executiveSummary) {
-    const sentences = data.executiveSummary.split('. ');
-    const firstSentence = sentences[0] + '.';
-    const rest = sentences.slice(1).join('. ');
-    const exec = document.createElement('div');
-    exec.className = 'rp-exec';
-    exec.innerHTML = `
-      <div class="rp-exec-label">Executive Summary</div>
-      <div class="rp-exec-text">
-        <span class="rp-exec-first">${escHtml(firstSentence)}</span>
-        ${rest ? ' ' + escHtml(rest) : ''}
-      </div>
-    `;
-    preview.appendChild(exec);
-  }
-
-  // Sections
-  if (data.sections) {
-    data.sections.forEach((sec, idx) => {
-      const isRef = sec.title && sec.title.toLowerCase().includes('reference');
-      const card = document.createElement('div');
-      card.className = 'rp-section';
-      card.id = `section-${idx}`;
-
-      const num = sec.number || String(idx + 1).padStart(2, '0');
-      const header = document.createElement('div');
-      header.className = 'rp-section-header';
-      header.innerHTML = `
-        <div class="section-num-badge">${escHtml(num)}</div>
-        <div class="rp-section-title">${escHtml(sec.title)}</div>
-        <span class="collapse-icon">▾</span>
-      `;
-      header.onclick = () => toggleSection(card, body);
-      card.appendChild(header);
-
-      const body = document.createElement('div');
-      body.className = 'rp-section-body';
-
-      // Key stats
-      if (sec.keyStats && sec.keyStats.length > 0 && !isRef) {
-        const statsRow = document.createElement('div');
-        statsRow.className = 'stats-row';
-        sec.keyStats.slice(0, 3).forEach(stat => {
-          statsRow.innerHTML += `
-            <div class="stat-card">
-              <div class="stat-val">${escHtml(stat.value)}</div>
-              <div class="stat-lbl">${escHtml(stat.label)}</div>
-            </div>
-          `;
-        });
-        body.appendChild(statsRow);
-      }
-
-      // Content
-      const contentDiv = document.createElement('div');
-      contentDiv.className = 'section-content';
-      contentDiv.dataset.sectionIdx = idx;
-
-      if (isRef && data.references) {
-        data.references.forEach(ref => {
-          contentDiv.innerHTML += `
-            <div class="ref-item">
-              <span class="ref-num">[${ref.index || ''}]</span>
-              <span>
-                ${escHtml(ref.citation || '')}
-                ${ref.source ? `<strong>, ${escHtml(ref.source)}</strong>` : ''}
-                ${ref.year ? `, ${escHtml(ref.year)}` : ''}
-                ${ref.url ? `<br><a href="${escHtml(ref.url)}" class="ref-url" target="_blank">${escHtml(ref.url)}</a>` : ''}
-              </span>
-            </div>
-          `;
-        });
-      } else {
-        if (sec.content) {
-          sec.content.split('\n').filter(p => p.trim()).forEach(para => {
-            contentDiv.innerHTML += `<p data-field="content">${escHtml(para.trim())}</p>`;
-          });
-        }
-
-        if (sec.subsections) {
-          sec.subsections.forEach(sub => {
-            contentDiv.innerHTML += `
-              <div class="subsection">
-                <div class="subsection-title" data-field="subtitle">${escHtml(sub.title)}</div>
-                ${sub.content ? sub.content.split('\n').filter(p => p.trim())
-                  .map(p => `<p data-field="subcontent">${escHtml(p.trim())}</p>`).join('') : ''}
-              </div>
-            `;
-          });
-        }
-      }
-
-      body.appendChild(contentDiv);
-      card.appendChild(body);
-      preview.appendChild(card);
-    });
-  }
-
-  // Conclusion
-  if (data.conclusion) {
-    const concEl = document.createElement('div');
-    concEl.className = 'rp-exec';
-    concEl.style.borderLeftColor = 'var(--kpmg-teal)';
-    concEl.innerHTML = `
-      <div class="rp-exec-label" style="color:var(--kpmg-teal)">Conclusion</div>
-      <div class="rp-exec-text" data-field="conclusion">${escHtml(data.conclusion)}</div>
-    `;
-    preview.appendChild(concEl);
-  }
-}
-
-function toggleSection(card, body) {
-  card.classList.toggle('collapsed');
-  body.classList.toggle('hidden');
-}
-
-// ── EDIT MODE ─────────────────────────────────────────────────────────────────
-function toggleEditMode() {
-  editMode = !editMode;
-  const btn = document.getElementById('editModeBtn');
-  const bar = document.getElementById('editModeBar');
-  btn.classList.toggle('active', editMode);
-  bar.classList.toggle('visible', editMode);
-
-  // Make editable
-  document.querySelectorAll('[data-field]').forEach(el => {
-    el.contentEditable = editMode ? 'true' : 'false';
-    if (editMode) {
-      el.addEventListener('blur', () => syncEditToData(el), { once: false });
-    }
+function renderSecs() {
+  var list = document.getElementById('secList');
+  var empty = document.getElementById('secEmpty');
+  list.innerHTML = '';
+  if (!sections.length) { empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+  sections.forEach(function(s) {
+    var d = document.createElement('div');
+    d.className = 'sec-item';
+    d.innerHTML = '<span class="drag">&#8942;&#8942;</span><span class="sec-name">' + esc(s.name) + '</span><button class="sec-del" onclick="removeSec(' + s.id + ')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>';
+    list.appendChild(d);
   });
 }
 
-function syncEditToData(el) {
-  // Best-effort sync to reportData
-  const sectionEl = el.closest('[data-section-idx]');
-  if (!sectionEl || !reportData) return;
-  const idx = parseInt(sectionEl.dataset.sectionIdx);
-  const field = el.dataset.field;
-  if (field === 'content' && reportData.sections[idx]) {
-    // Re-collect all paragraphs
-    const paras = [...el.closest('.section-content').querySelectorAll('[data-field="content"]')];
-    reportData.sections[idx].content = paras.map(p => p.textContent).join('\n');
-  }
-}
-
-// ── DOWNLOAD DOCX ─────────────────────────────────────────────────────────────
-async function downloadDocx() {
-  if (!reportData) return showToast('Generate a report first', 'error');
-
-  showToast('Preparing your Word document...', 'success');
-
+async function generate() {
+  var key = document.getElementById('groqKey').value.trim();
+  var topic = document.getElementById('topicInput').value.trim();
+  var secs = sections.map(function(s) { return s.name; });
+  if (!key) { toast('Enter your Groq API key', false); return; }
+  if (!topic) { toast('Enter a report topic', false); return; }
+  if (!secs.length) { toast('Add at least one section', false); return; }
+  if (busy) return;
+  busy = true;
+  document.getElementById('genBtn').disabled = true;
+  document.getElementById('prog').style.display = 'block';
+  document.getElementById('loader').classList.add('on');
+  setP(5, 'Connecting to Groq LLaMA 3.3...');
   try {
-    const response = await fetch('/api/download-docx', {
+    var res = await fetch('/api/generate-report', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ reportData })
+      body: JSON.stringify({ topic: topic, sections: secs, groqKey: key })
     });
+    var reader = res.body.getReader();
+    var dec = new TextDecoder();
+    var buf = '';
+    while (true) {
+      var chunk = await reader.read();
+      if (chunk.done) break;
+      buf += dec.decode(chunk.value, { stream: true });
+      var lines = buf.split('\n');
+      buf = lines.pop();
+      for (var i = 0; i < lines.length; i++) {
+        var line = lines[i];
+        if (!line.startsWith('data: ')) continue;
+        var raw = line.slice(6).trim();
+        if (raw === '[DONE]') break;
+        try {
+          var p = JSON.parse(raw);
+          if (p.type === 'status') { setP(null, p.message); document.getElementById('loaderMsg').textContent = p.message; }
+          else if (p.type === 'complete') { reportData = p.data; renderReport(reportData); setP(100, 'Report ready'); document.getElementById('dlBtn').disabled = false; document.getElementById('dlNavBtn').style.display = 'inline-flex'; toast('Report generated successfully', true); }
+          else if (p.error) throw new Error(p.error);
+        } catch(e) { if (e.message && e.message.includes('JSON')) continue; throw e; }
+      }
+    }
+  } catch(e) { toast('Error: ' + e.message, false); setP(0, 'Failed'); }
+  finally { busy = false; document.getElementById('genBtn').disabled = false; document.getElementById('loader').classList.remove('on'); }
+}
 
-    if (!response.ok) throw new Error('Download failed');
+var pv = 0;
+function setP(v, msg) {
+  if (v !== null) { pv = v; } else { pv = Math.min(pv + 12, 90); }
+  document.getElementById('progFill').style.width = pv + '%';
+  if (msg) document.getElementById('progMsg').textContent = msg;
+}
 
-    const blob = await response.blob();
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `KPMG_${(reportData.topic || 'Report').replace(/[^a-zA-Z0-9]/g, '_')}_${new Date().getFullYear()}.docx`;
-    a.click();
-    URL.revokeObjectURL(url);
-    showToast('✅ Word document downloaded!', 'success');
-  } catch (err) {
-    showToast('Download error: ' + err.message, 'error');
+function mk(tag, cls, html) {
+  var d = document.createElement(tag); d.className = cls; d.innerHTML = html; return d;
+}
+
+function renderReport(data) {
+  document.getElementById('welcome').style.display = 'none';
+  var rp = document.getElementById('rp');
+  rp.innerHTML = '';
+  rp.classList.add('on');
+  rp.appendChild(mk('div', 'rp-cover',
+    '<div class="rp-cover-bg"></div><div class="rp-cover-stripe"></div>' +
+    '<div class="rp-cover-tag">KPMG India &middot; Thought Leadership &middot; ' + new Date().getFullYear() + '</div>' +
+    '<div class="rp-cover-title">' + esc(data.topic || '') + '</div>' +
+    (data.subtitle ? '<div class="rp-cover-sub">' + esc(data.subtitle) + '</div>' : '') +
+    '<div class="rp-cover-meta"><span class="rp-meta-item"><strong>' + esc(data.date || '') + '</strong></span><div class="rp-meta-dot"></div><span class="rp-meta-item">kpmg.com/in</span></div>'
+  ));
+  if (data.executiveSummary) {
+    var sents = data.executiveSummary.split('. ');
+    rp.appendChild(mk('div', 'rp-exec',
+      '<div class="rp-exec-eyebrow">Executive Summary</div>' +
+      '<div class="rp-exec-text"><span class="rp-exec-lead">' + esc(sents[0] + '.') + '</span>' + (sents.length > 1 ? ' ' + esc(sents.slice(1).join('. ')) : '') + '</div>'
+    ));
+  }
+  (data.sections || []).forEach(function(sec, i) {
+    var isRef = (sec.title || '').toLowerCase().includes('reference');
+    var card = document.createElement('div'); card.className = 'rp-sec';
+    var num = sec.number || String(i + 1).padStart(2, '0');
+    var head = mk('div', 'rp-sec-head',
+      '<div class="sec-badge">' + esc(num) + '</div>' +
+      '<div class="rp-sec-title">' + esc(sec.title) + '</div>' +
+      '<span class="rp-chevron"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>'
+    );
+    var body = document.createElement('div'); body.className = 'rp-sec-body';
+    if (sec.keyStats && sec.keyStats.length && !isRef) {
+      var sg = mk('div', 'stats-grid', '');
+      sec.keyStats.slice(0, 4).forEach(function(st) {
+        sg.innerHTML += '<div class="stat-card"><div class="stat-val">' + esc(st.value) + '</div><div class="stat-lbl">' + esc(st.label) + '</div></div>';
+      });
+      body.appendChild(sg);
+    }
+    var ct = document.createElement('div'); ct.className = 'sec-content'; ct.dataset.secIdx = i;
+    if (isRef && data.references) {
+      data.references.forEach(function(r) {
+        ct.innerHTML += '<div class="ref-row"><span class="ref-n">[' + (r.index || '') + ']</span><span>' + esc(r.citation || '') + (r.source ? '<strong>, ' + esc(r.source) + '</strong>' : '') + (r.year ? ', ' + esc(r.year) : '') + (r.url ? '<br><a href="' + esc(r.url) + '" class="ref-url" target="_blank">' + esc(r.url) + '</a>' : '') + '</span></div>';
+      });
+    } else {
+      if (sec.content) {
+        sec.content.split('\n').filter(function(p) { return p.trim(); }).forEach(function(p) {
+          ct.innerHTML += '<p data-field="c">' + esc(p.trim()) + '</p>';
+        });
+      }
+      (sec.subsections || []).forEach(function(sub) {
+        ct.innerHTML += '<div class="subsec"><div class="subsec-title" data-field="st">' + esc(sub.title) + '</div>' +
+          (sub.content || '').split('\n').filter(function(p) { return p.trim(); }).map(function(p) { return '<p data-field="sc">' + esc(p.trim()) + '</p>'; }).join('') + '</div>';
+      });
+    }
+    head.onclick = function() { card.classList.toggle('collapsed'); body.classList.toggle('hide'); };
+    body.appendChild(ct); card.appendChild(head); card.appendChild(body); rp.appendChild(card);
+  });
+  if (data.conclusion) {
+    rp.appendChild(mk('div', 'rp-concl',
+      '<div class="rp-concl-eyebrow">Conclusion</div>' +
+      '<div class="sec-content" data-field="cl">' + esc(data.conclusion) + '</div>'
+    ));
   }
 }
 
-// ── CHATBOT ───────────────────────────────────────────────────────────────────
-function toggleChat() {
-  isChatOpen = !isChatOpen;
-  document.getElementById('chatSidebar').classList.toggle('open', isChatOpen);
-  document.getElementById('chatBtn').classList.toggle('active', isChatOpen);
-  document.getElementById('chatBadge').style.display = 'none';
+function toggleEdit() {
+  editOn = !editOn;
+  document.getElementById('editBtn').classList.toggle('active', editOn);
+  document.getElementById('editBar').classList.toggle('on', editOn);
+  document.querySelectorAll('[data-field]').forEach(function(e) { e.contentEditable = editOn ? 'true' : 'false'; });
 }
 
-function sendSuggestion(el) {
-  document.getElementById('chatInput').value = el.textContent;
-  sendChat();
+async function dlDocx() {
+  if (!reportData) { toast('Generate a report first', false); return; }
+  toast('Preparing Word document...', true);
+  try {
+    var res = await fetch('/api/download-docx', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reportData: reportData })
+    });
+    if (!res.ok) throw new Error('Download failed');
+    var blob = await res.blob();
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'KPMG_' + (reportData.topic || 'Report').replace(/[^a-zA-Z0-9]/g, '_') + '_' + new Date().getFullYear() + '.docx';
+    a.click(); URL.revokeObjectURL(url); toast('Downloaded', true);
+  } catch(e) { toast('Download error: ' + e.message, false); }
 }
+
+function toggleChat() {
+  chatOpen = !chatOpen;
+  document.getElementById('chat').classList.toggle('open', chatOpen);
+  document.getElementById('chatBtn').classList.toggle('active', chatOpen);
+}
+
+function cchip(el) { document.getElementById('chatInp').value = el.textContent; sendChat(); }
 
 async function sendChat() {
-  const key = document.getElementById('groqKey').value.trim();
-  if (!key) return showToast('Groq API key required for chat', 'error');
-
-  const input = document.getElementById('chatInput');
-  const message = input.value.trim();
-  if (!message) return;
-
-  input.value = '';
-  input.style.height = 'auto';
-
-  // Add user message
-  addChatMessage('user', message);
-
-  // Show typing indicator
-  const typingEl = addTypingIndicator();
-
-  document.getElementById('chatSend').disabled = true;
-
+  var key = document.getElementById('groqKey').value.trim();
+  if (!key) { toast('Add your Groq API key first', false); return; }
+  var inp = document.getElementById('chatInp');
+  var msg = inp.value.trim(); if (!msg) return;
+  inp.value = ''; inp.style.height = 'auto';
+  addMsg('u', msg);
+  var typing = addTyping();
+  document.getElementById('csend').disabled = true;
   try {
-    const response = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        message,
-        reportData,
-        history: chatHistory.slice(-8),
-        groqKey: key
-      })
+    var res = await fetch('/api/chat', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: msg, reportData: reportData, history: chatHistory.slice(-8), groqKey: key })
     });
-
-    const result = await response.json();
-    typingEl.remove();
-
-    if (result.error) throw new Error(result.error);
-
-    addChatMessage('bot', result.message);
-
-    // Update report if modified
-    if (result.updatedReport) {
-      reportData = result.updatedReport;
-      renderReport(reportData);
-      showToast('✅ Report updated from chat!', 'success');
-    }
-
-    chatHistory.push({ role: 'user', content: message });
-    chatHistory.push({ role: 'assistant', content: result.message });
-
-  } catch (err) {
-    typingEl.remove();
-    addChatMessage('bot', '❌ Error: ' + err.message);
-  } finally {
-    document.getElementById('chatSend').disabled = false;
-  }
+    var data = await res.json(); typing.remove();
+    if (data.error) throw new Error(data.error);
+    addMsg('b', data.message);
+    if (data.updatedReport) { reportData = data.updatedReport; renderReport(reportData); toast('Report updated', true); }
+    chatHistory.push({ role: 'user', content: msg });
+    chatHistory.push({ role: 'assistant', content: data.message });
+  } catch(e) { typing.remove(); addMsg('b', 'Error: ' + e.message); }
+  finally { document.getElementById('csend').disabled = false; }
 }
 
-function addChatMessage(role, text) {
-  const msgs = document.getElementById('chatMessages');
-  const msg = document.createElement('div');
-  msg.className = `chat-msg ${role}`;
-  msg.innerHTML = `<div class="chat-bubble">${formatChatText(text)}</div>`;
-  msgs.appendChild(msg);
-  msgs.scrollTop = msgs.scrollHeight;
-  return msg;
+function addMsg(role, text) {
+  var c = document.getElementById('chatMsgs');
+  var d = document.createElement('div'); d.className = 'cmsg ' + role;
+  d.innerHTML = '<div class="cbubble">' + fmt(text) + '</div>';
+  c.appendChild(d); c.scrollTop = c.scrollHeight; return d;
 }
 
-function addTypingIndicator() {
-  const msgs = document.getElementById('chatMessages');
-  const el = document.createElement('div');
-  el.className = 'chat-msg bot';
-  el.innerHTML = `<div class="chat-bubble"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
-  msgs.appendChild(el);
-  msgs.scrollTop = msgs.scrollHeight;
-  return el;
+function addTyping() {
+  var c = document.getElementById('chatMsgs');
+  var d = document.createElement('div'); d.className = 'cmsg b';
+  d.innerHTML = '<div class="cbubble"><div class="typing"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div></div></div>';
+  c.appendChild(d); c.scrollTop = c.scrollHeight; return d;
 }
 
-function formatChatText(text) {
-  return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/\n/g, '<br>')
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/`(.+?)`/g, '<code>$1</code>');
+function fmt(t) {
+  return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>').replace(/[*][*](.+?)[*][*]/g,'<strong>$1</strong>');
 }
-
-// ── UTILS ─────────────────────────────────────────────────────────────────────
-function escHtml(str) {
-  if (!str) return '';
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
-
-function showToast(msg, type = 'success') {
-  const toast = document.getElementById('toast');
-  toast.textContent = msg;
-  toast.className = `toast ${type} show`;
-  setTimeout(() => toast.classList.remove('show'), 3500);
+function toast(msg, ok) {
+  var t = document.getElementById('toast'); t.textContent = msg;
+  t.className = 'toast on ' + (ok ? 'ok' : 'err');
+  clearTimeout(t._t); t._t = setTimeout(function() { t.classList.remove('on'); }, 3500);
 }
+renderSecs();
 </script>
 </body>
 </html>
