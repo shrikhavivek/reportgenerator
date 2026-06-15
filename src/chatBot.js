@@ -36,7 +36,7 @@ Maintain British English spelling and KPMG professional tone throughout.`
       'Authorization': `Bearer ${groqKey}`
     },
     body: JSON.stringify({
-      model: 'llama-3.3-70b-versatile',
+      model: 'llama3-70b-8192',
       messages,
       temperature: 0.7,
       max_tokens: 4000
